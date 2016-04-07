@@ -19,8 +19,21 @@ namespace ColorConverter
             // The root page of your application
 			MainPage = new ColorConverterPage();
 		}
+        public static App Instance
+        {
+            get
+            {
+                return (App)Xamarin.Forms.Application.Current;
+            }
+        }
+        public void Alert(string message, string title = null, string closeButton = null)
+        {
+            if (string.IsNullOrEmpty(closeButton))
+                closeButton = "OK";
 
-		protected override void OnStart ()
+             MainPage.DisplayAlert(title, message, closeButton);
+        }
+        protected override void OnStart ()
 		{
 			// Handle when your app starts
 		}

@@ -1,54 +1,64 @@
-﻿using System;
+﻿using ColorConverter.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 using Xamarin.Forms;
 
-namespace ColorConverter.Pages
+namespace ColorConverter
 {
 	public class ColorConverterPage : ContentPage
 	{
 		public Button btnRtoH, btnHtoR;
 		public Label lblHexa;
 		public BoxView boxColor;
-		public Entry txtHexa;
+		public CustomEntry txtHexa;
 		int w= App.ScreenWidth;
-		int h= App.ScreenHeight;
-		private ColorConverterViewModel ViewModel
+        int h = App.ScreenHeight;
+        public Colors clr;
+        public string name;
+        public string binding;
+        private ColorConverterViewModel ViewModel
 		{
 			get { return BindingContext as ColorConverterViewModel; } //Type cast BindingContex as ColorConverterViewModel to access binded properties
 		}
 
-		#endregion
 
 		public ColorConverterPage ()
 		{
 			BindingContext = new ColorConverterViewModel(this.Navigation);
+            this.BackgroundImage = "Bg.png";
 			btnHtoR = new Button
 			{
 				Text="Convert Hexa to RGB",
-				BackgroundColor=Color.Lime,
-				Command=ViewModel.HEXtoRGB
+                TextColor  = Colors.CCBtn.ToFormsColor(),
+                BackgroundColor = Color.White,
+                Command = ViewModel.HEXtoRGB
 			};
 			btnRtoH = new Button
 			{
 				Text="Convert RGB to Hexa",
-				BackgroundColor=Color.Lime,
-				Command=ViewModel.RGBtoHEX				
+                TextColor = Colors.CCBtn.ToFormsColor(),
+                BackgroundColor = Color.White,
+                Command = ViewModel.RGBtoHEX				
 			};
 
-			lblHexa = new Label
-			{
-				Text="Hexa Color",
-				TextColor=Color.Blue					
+            lblHexa = new Label
+            {
+                Text = "Hexa Color",
+                FontSize = h / 22,
+                TextColor = Colors.CCBtn.ToFormsColor(),
+                YAlign = TextAlignment.Start
 			};
+            CustomEntry txt = 
 
-			txtHexa = new Entry
-			{
-				Text="000000",
-				TextColor=Color.Blue					
-			};
+            txtHexa = new CustomEntry(new CustomEntryParams
+            { MaxLength = 6 })
+            {
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+
+            };
 			txtHexa.SetBinding (Entry.TextProperty,"Hexa");
 			boxColor = new BoxView
 			{
@@ -62,10 +72,13 @@ namespace ColorConverter.Pages
 			boxColor.IsEnabled = true;
 			boxColor.GestureRecognizers.Clear();
 			boxColor.GestureRecognizers.Add(boxColortap);
+
 			Content = new StackLayout
 			{
-				HorizontalOptions=LayoutOptions.CenterAndExpand,
-				VerticalOptions=LayoutOptions.CenterAndExpand,
+                Padding= new Thickness(w/10,w/10,w/10,w/10),
+                HorizontalOptions =LayoutOptions.CenterAndExpand,
+				VerticalOptions=LayoutOptions.FillAndExpand,
+                Spacing=w/10,
 				Children =
                 {
 					GenEventTablelGrid(),
@@ -88,68 +101,85 @@ namespace ColorConverter.Pages
 		{
 			ViewModel.Effectpage.Execute (null);		
 		}
-		public Label label(string ID,string text,Color color)
+		public Label label(string ID,string text,Colors color)
         {
             Label lbl = new Label
 			{
 				Text=text,
-				TextColor=color,
-				ClassId=ID
+                FontSize=h/20,
+				TextColor=color.ToFormsColor(),
+				ClassId=ID,
+                XAlign=TextAlignment.Center,
+                FontAttributes=FontAttributes.Bold
+                
 
 			};
             return lbl;
         }
 
-		public Entry entry(string ID,string binding)
+		public CustomEntry entry(string ID,string bind)
         {
-			Entry txt = new Entry
-			{
-				Text="0",
-				TextColor=Color.Black,
-				ClassId=ID
-			};
-			txt.SetBinding (Entry.TextProperty,binding);
+            CustomEntry txt = new CustomEntry(new CustomEntryParams { MaxLength = 3 });
+
+            txt.ClassId = ID;
+            txt.Keyboard = Keyboard.Numeric;			
+			txt.SetBinding (Entry.TextProperty,bind);
+            txt.WidthRequest = w / 10;
+            txt.HeightRequest = w / 10;
+
             return txt;
         }
+        
 
-		private Grid GenEventTablelGrid()
+        private Grid GenEventTablelGrid()
 		{
-			Color clr;
-			string name;
-			string binding;
+			
 			var grid = new Grid()
 			{
 				ColumnSpacing = 3,
 				RowSpacing = 3,	
+             
 			};
 				
 			int i = 0;
 			int j = 0;
-			for (int x = 0; x <3 ; x++) 
+            int k = 0;
+
+            for (int x = 0; x <6 ; x++) 
 			{
 				if (i < 3) 
 				{
-					if (i = 0) {
-						clr = Color.Red;
+					if (i== 0) {
+                        clr = Colors.RED;
 						name = "R";
-						binding="RED";
-					} else if (i = 1) {
-						clr = Color.Green;	
-						name = "G";
-						binding="GREEN";
+					} else if (i== 1) {
+                        clr = Colors.GREEN;
+                        name = "G";
 					} else {
-						clr = Color.Blue;	
-						name = "B";
-						binding="BLUE";
-
+                        clr = Colors.BLUE;
+                        name = "B";
 					}
-					grid.Children.Add (label (i.ToString,name,clr), i, j);
+					grid.Children.Add (label (i.ToString(),name,clr), i, j);
 					i++;
-				} else {
-					i = 0;
-					j = 1;
-					grid.Children.Add (entry (i.ToString,binding), i, j);
-					i++;
+				}
+                else
+                {
+                    if (k == 0)
+                    {                        
+                        binding = "RED";
+                    }
+                    else if (k == 1)
+                    {                       
+                        binding = "GREEN";
+                    }
+                    else
+                    {                        
+                        binding = "BLUE";
+
+                    }
+                    j = 1;
+					grid.Children.Add (entry (k.ToString(),binding), k, j);
+					k++;
 				}
 			}
 			return grid;

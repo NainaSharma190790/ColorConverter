@@ -11,7 +11,9 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ColorConverter", "ColorConv
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		ColorConverter\ColorConverter\ColorConverter.projitems*{da2049c8-8790-4703-b05c-d73d62dbdea7}*SharedItemsImports = 4
 		ColorConverter\ColorConverter\ColorConverter.projitems*{2ee7364c-0b2d-46d4-b4d9-21f5a7364ef6}*SharedItemsImports = 13
+		ColorConverter\ColorConverter\ColorConverter.projitems*{c771a686-4d34-4a92-86b2-b49b23c175cb}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|Any CPU = Ad-Hoc|Any CPU
