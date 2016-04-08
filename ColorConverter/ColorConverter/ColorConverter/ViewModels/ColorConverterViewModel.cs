@@ -70,7 +70,7 @@ namespace ColorConverter
             }
         }
 
-        private Color _color;
+        private Color _color=Color.Black;
         public Color BoxColor
         {
             get { return _color; }
@@ -83,36 +83,76 @@ namespace ColorConverter
 
         #endregion
 
-        #region Command
+        #region Commands
 
-        public void ChangeEffect(string id)
+        public ICommand Tap1
         {
-            switch (id)
+            get
             {
-                case "1":
+                return new Command(p =>
+                {
                     Effect = "Img1.png";
-                    break;
-                case "2":
-                    Effect = "Img2.png";
-                    break;
-                case "3":
-                    Effect = "Img3.png";
-
-                    break;
-                case "4":
-                    Effect = "Img1.png";
-
-                    break;
-                case "5":
-                    Effect = "Img2.png";
-
-                    break;
-                case "6":
-                    Effect = "Img3.png";
-
-                    break;
+                });
             }
+
         }
+        public ICommand Tap2
+        {
+            get
+            {
+                return new Command(p =>
+                {
+                    Effect = "Img2.png";
+                });
+            }
+
+        }
+        public ICommand Tap3
+        {
+            get
+            {
+                return new Command(p =>
+                {
+                    Effect = "Img3.png";
+                });
+            }
+
+        }
+        public ICommand Tap4
+        {
+            get
+            {
+                return new Command(p =>
+                {
+                    Effect = "Img4.png";
+                });
+            }
+
+        }
+        public ICommand Tap5
+        {
+            get
+            {
+                return new Command(p =>
+                {
+                    Effect = "Img5.png";
+                });
+            }
+
+        }
+        public ICommand Tap6
+        {
+            get
+                {
+                return new Command(p =>
+                {
+                    Effect = "Img6.png";
+                });
+            }
+
+        }
+
+    
         public ICommand Effectpage
         {
             get
@@ -130,10 +170,12 @@ namespace ColorConverter
             {
                 return new Command(p =>
                    {
-                       int r = Convert.ToInt32(RED);
-                       int g = Convert.ToInt32(GREEN);
-                       int b = Convert.ToInt32(BLUE);
-                       if (r > 255 || b > 255 || g > 255)
+                       int r = RED == "" ? -1 :Convert.ToInt32(RED);// Convert.ToInt32(RED);
+                       int g = GREEN == "" ? -1 : Convert.ToInt32(GREEN);
+                       int b = BLUE == "" ? -1 : Convert.ToInt32(BLUE);
+                 
+
+                       if (r > 255 || b > 255 || g > 255 || r<0 || b<0|| g<0 )
                        {
                            App.Instance.Alert("RGB value should be less then 255 ", "RBG Alert", "OK");
 
@@ -158,7 +200,7 @@ namespace ColorConverter
                        try
                        {
 
-                           if (Hexa.Length == 4 || Hexa.Length == 5 || Hexa.Length > 6)
+                           if (Hexa.Length == 4 || Hexa.Length == 5 || Hexa.Length > 6|| Hexa=="")
                            {
                                App.Instance.Alert("Hexa length should be 3 or 6 ", "Hexa Alert", "OK");
                            }
@@ -212,6 +254,8 @@ namespace ColorConverter
 
         #endregion
 
+        #region Methods to convert color hexa to RGB and RGB to hex
+
         public string RGBtoHEXA(int R, int G, int B)
         {
             string hex = "";
@@ -261,6 +305,9 @@ namespace ColorConverter
             }
             BoxColor = Color.FromRgb(red, green, blue);
         }
+
+        #endregion
+
     }
 }
 

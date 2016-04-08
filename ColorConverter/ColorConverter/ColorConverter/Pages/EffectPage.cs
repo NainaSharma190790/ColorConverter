@@ -46,9 +46,9 @@ namespace ColorConverter
                         Spacing=w/10,
 						Children=
 						{
-                            Effect("Img1.png","1"),
-                            Effect("Img2.png","2"),
-                            Effect("Img3.png","3")
+                            Effect("Img1.png","1","Tap1"),
+                            Effect("Img2.png","2","Tap2"),
+                            Effect("Img3.png","3","Tap3")
                         }
                     },new StackLayout
                     {
@@ -57,16 +57,16 @@ namespace ColorConverter
                         Spacing=w/10,
                         Children=
                         {
-                            Effect("Img1.png","4"),
-                            Effect("Img2.png","5"),
-                            Effect("Img3.png","6")
+                            Effect("Img4.png","4","Tap4"),
+                            Effect("Img5.png","5","Tap5"),
+                            Effect("Img6.png","6","Tap6")
                         }
                     }
 
                 }
 			};
 		}
-        public Image Effect(string img, string ID)
+        public Image Effect(string img, string ID, string binding)
         {
             Image btn = new Image
             {
@@ -76,23 +76,82 @@ namespace ColorConverter
                 Aspect = Aspect.AspectFit,
                 WidthRequest = w / 5
             };
-            tap(ID);
-            var BtnColortap = new TapGestureRecognizer(OnBtnColorTapped);
-            BtnColortap.NumberOfTapsRequired = 1;
-            btn.IsEnabled = true;
-            btn.GestureRecognizers.Clear();
-            btn.GestureRecognizers.Add(BtnColortap);
+            switch (ID)
+            {
+                case "1":
+                    var BtnColortap1 = new TapGestureRecognizer(BtnColortap1_Tapped);
+                    BtnColortap1.NumberOfTapsRequired = 1;
+                    btn.IsEnabled = true;
+                    btn.GestureRecognizers.Clear();
+                    btn.GestureRecognizers.Add(BtnColortap1);
+                    break;
+                case "2":
+                    var BtnColortap2 = new TapGestureRecognizer(BtnColortap2_Tapped);
+                    BtnColortap2.NumberOfTapsRequired = 1;
+                    btn.IsEnabled = true;
+                    btn.GestureRecognizers.Clear();
+                    btn.GestureRecognizers.Add(BtnColortap2);
+                    break;
+                case "3":
+                    var BtnColortap3 = new TapGestureRecognizer(BtnColortap3_Tapped);
+                    BtnColortap3.NumberOfTapsRequired = 1;
+                    btn.IsEnabled = true;
+                    btn.GestureRecognizers.Clear();
+                    btn.GestureRecognizers.Add(BtnColortap3);
+                    break;
+                case "4":
+                    var BtnColortap4 = new TapGestureRecognizer(BtnColortap4_Tapped);
+                    BtnColortap4.NumberOfTapsRequired = 1;
+                    btn.IsEnabled = true;
+                    btn.GestureRecognizers.Clear();
+                    btn.GestureRecognizers.Add(BtnColortap4);
+                    break;
+                case "5":
+                    var BtnColortap5 = new TapGestureRecognizer(BtnColortap5_Tapped);
+                    BtnColortap5.NumberOfTapsRequired = 1;
+                    btn.IsEnabled = true;
+                    btn.GestureRecognizers.Clear();
+                    btn.GestureRecognizers.Add(BtnColortap5);
+                    break;
+                case "6":
+                    var BtnColortap6 = new TapGestureRecognizer(BtnColortap6_Tapped);
+                    BtnColortap6.NumberOfTapsRequired = 1;
+                    btn.IsEnabled = true;
+                    btn.GestureRecognizers.Clear();
+                    btn.GestureRecognizers.Add(BtnColortap6);
+                    break;
+            }
+
             return btn;
         }
-        void OnBtnColorTapped(View view, object sender)
+
+        private void BtnColortap1_Tapped(View view, object sender)
         {
-            
-            ViewModel.ChangeEffect(Id);
+            ViewModel.Tap1.Execute(null);
         }
-        string tap(string TapID)
+        private void BtnColortap2_Tapped(View view, object sender)
         {
-            Id = TapID;
-            return TapID;     
+            ViewModel.Tap2.Execute(null);
+
+        }
+        private void BtnColortap3_Tapped(View view, object sender)
+        {
+            ViewModel.Tap3.Execute(null);
+
+        }
+        private void BtnColortap4_Tapped(View view, object sender)
+        {
+            ViewModel.Tap4.Execute(null);
+
+        }
+        private void BtnColortap5_Tapped(View view, object sender)
+        {
+            ViewModel.Tap5.Execute(null);
+
+        }
+        private void BtnColortap6_Tapped(View view, object sender)
+        {
+            ViewModel.Tap6.Execute(null);
         }
 
     }
